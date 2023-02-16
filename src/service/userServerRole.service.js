@@ -15,21 +15,17 @@ const UserServerRoleService = {
             data: response,
         };
     },
-    getAllUsersBelongRoleGroup: async (serverId, serverRoleGroupId, page, perpage) => {
+    getAllUsersBelongRoleGroup: async (serverId, serverRoleGroupId) => {
         try {
             const users = await UserServerRoleModel.find(
                 {
                     serverId: serverId,
                     serverRoleGroupId: {
-                        $in: [serverRoleGroupId]
-                    }
+                        $in: [serverRoleGroupId],
+                    },
                 },
                 {
-                    userId: 1
-                },
-                {
-                    skip: perpage * (page - 1),
-                    limit: perpage,
+                    userId: 1, 
                 },
             );
             return {
@@ -48,12 +44,12 @@ const UserServerRoleService = {
         try {
             const user = await UserServerRoleModel.findOne({
                 userId: userId,
-                serverId: serverId
+                serverId: serverId,
             });
             if (!user) throw new Error(`Cant find role group with roleId: ${serverRoleGroupId}`);
-            if(!user.serverRoleGroupId.includes(serverRoleGroupId))
-                throw new Error(`User: ${user} is not belong this role group: ${serverRoleGroupId}`)
-            user.serverRoleGroupId.forEach(item => item != serverRoleGroupId)
+            if (!user.serverRoleGroupId.includes(serverRoleGroupId))
+                throw new Error(`User: ${user} is not belong this role group: ${serverRoleGroupId}`);
+            user.serverRoleGroupId.forEach((item) => item != serverRoleGroupId);
             return {
                 status: OK,
                 data: user,
@@ -69,7 +65,7 @@ const UserServerRoleService = {
         try {
             const user = await UserServerRoleModel.findOne({
                 userId: userId,
-                serverId: serverId
+                serverId: serverId,
             });
             if (!user) throw new Error(`Cant find role group with roleId: ${serverId}`);
             return {
@@ -87,11 +83,11 @@ const UserServerRoleService = {
         try {
             const user = await UserServerRoleModel.findOne({
                 userId: userId,
-                serverId: serverId
+                serverId: serverId,
             });
             if (!user) throw new Error(`Cant find role group with roleId: ${serverRoleGroupId}`);
-            if(user.serverRoleGroupId.includes(serverRoleGroupId))
-                throw new Error(`User: ${userId} already had this role group: ${serverRoleGroupId}`)
+            if (user.serverRoleGroupId.includes(serverRoleGroupId))
+                throw new Error(`User: ${userId} already had this role group: ${serverRoleGroupId}`);
             user.serverRoleGroupId.push(serverRoleGroupId);
             return {
                 status: OK,
@@ -106,14 +102,17 @@ const UserServerRoleService = {
     },
     getUsersNotBelongRoleGroup: async (roleId, serverId) => {
         try {
-            const users = await UserServerRoleModel.find({
-                serverId: serverId,
-                serverRoleGroupId: {
-                    $nin: [roleId],
+            const users = await UserServerRoleModel.find(
+                {
+                    serverId: serverId,
+                    serverRoleGroupId: {
+                        $nin: [roleId],
+                    },
                 },
-            }, {
-                userId: 1,
-            });
+                {
+                    userId: 1,
+                },
+            );
             return {
                 status: OK,
                 data: users,

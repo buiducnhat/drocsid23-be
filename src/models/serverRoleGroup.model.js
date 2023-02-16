@@ -4,8 +4,8 @@ const ServerRoleGroupSchema = new Schema(
     name: {
       type: String,
     },
-    rolePolicies: {
-      type: Array,
+    rolePolicies:  {
+      type: [Number],
     },
     serverId: {
       type: Schema.Types.ObjectId,

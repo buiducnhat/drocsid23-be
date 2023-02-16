@@ -18,32 +18,21 @@ const UserSchema = new mongoose.Schema(
     fullname: {
       type: String,
       required: true,
-      minLength: 7,
     },
     gender: {
       type: String,
       required: true,
-      validate(value) {
-        if (!GENDER.includes(value)) throw new Error(`Invalid gender: ${value}`);
-      },
     },
     phone: {
       type: String,
-      required: true,
-      unique: true,
-      dropDups: true,
-      validate(value) {
-        if (!validator.isMobilePhone(value, 'vi-VN')) throw new Error(`Invalid phone number: ${value}`);
-      },
     },
     password: {
       type: String,
       required: true,
-      minLength: 7,
     },
     avatarUrl: {
       type: String,
-      default: 'avt_default.png',
+      default: 'https://i.pravatar.cc/150',
     },
     status: {
       type: Number,

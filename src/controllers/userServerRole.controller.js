@@ -38,7 +38,7 @@ const UserServerRole = {
         try {
             const { status, data } = await UserServerRoleService.getUsersNotBelongRoleGroup(
                 req.params.serverId,
-                req.params.roleId
+                req.params.roleId,
             );
             if (status === ERR) throw new CusError(apiStatus.DATABASE_ERROR, httpStatus.NOT_FOUND, data);
             _resp(res, httpStatus.CREATED, apiStatus.SUCCESS, 'Success', data);
@@ -50,10 +50,7 @@ const UserServerRole = {
     },
     getDetailRolesUserOnServer: async (req, res, next) => {
         try {
-            const { status, data } = await UserServerRoleService.get(
-                req.params.serverId,
-                req.params.userId,
-            );
+            const { status, data } = await UserServerRoleService.get(req.params.serverId, req.params.userId);
             if (status === ERR) throw new CusError(apiStatus.DATABASE_ERROR, httpStatus.NOT_FOUND, data);
             _resp(res, httpStatus.CREATED, apiStatus.SUCCESS, 'Success', data);
         } catch (error) {
@@ -64,13 +61,9 @@ const UserServerRole = {
     },
     getAllUsersBelongRoleGroup: async (req, res, next) => {
         try {
-            const page = req.query.page > 0 ? req.query.page : 1
-            const perpage = req.query.perpage > 0 ? req.query.perpage : 10
             const { status, data } = await UserServerRoleService.getAllUsersBelongRoleGroup(
                 req.params.serverId,
                 req.params.roleId,
-                page,
-                perpage,
             );
             if (status === ERR) throw new CusError(apiStatus.DATABASE_ERROR, httpStatus.NOT_FOUND, data);
             _resp(res, httpStatus.CREATED, apiStatus.SUCCESS, 'Success', data);
@@ -79,8 +72,7 @@ const UserServerRole = {
                 _resp(res, error.httpStatus, error.apiStatus, error.message);
             } else _resp(res, httpStatus.INTERNAL_SERVER_ERROR, apiStatus.OTHER_ERROR, error.message);
         }
-    }
+    },
 };
 
-
-module.exports = UserServerRole
+module.exports = UserServerRole;
