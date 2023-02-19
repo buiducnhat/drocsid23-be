@@ -164,7 +164,10 @@ const ServerService = {
             let rr = [];
             for (let i = 0; i < roles.length; i++) {
                 let r = { ...roles[i]._doc, _id: roles[i]._id.toString() };
-                r.users = (await UserServerRoleService.getAllUsersBelongRoleGroup(id, roles[i]._id)).data;
+                r.users = (await UserServerRoleService.getAllUsersBelongRoleGroup(id, roles[i]._id)).data.map((x) => ({
+                    _id: x.userId.toString(),
+                }));
+                r.outUsers = server.members.filter((x) => !r.users.find((y) => y._id.toString() === x._id.toString()));
                 rr.push(r);
             }
             return {

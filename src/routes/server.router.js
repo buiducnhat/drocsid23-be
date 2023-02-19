@@ -41,25 +41,25 @@ router.post('/response-requests/:serverId', Authen.verifyToken, Authen.verifyPer
 
 
 // Role on server
-router.post('/:serverId/roles',Authen.verifyToken, Authen.verifyPermission(serverPolicy.MANAGE_ROLE), serverRoleGroup.createRoleGroup)
+router.post('/:serverId/roles',Authen.verifyToken, serverRoleGroup.createRoleGroup)
 
 // get all roles of current server
-router.get('/:serverId/roles',Authen.verifyToken, Authen.verifyPermission(serverPolicy.MANAGE_ROLE), serverRoleGroup.getAllRoleGroup)
+router.get('/:serverId/roles',Authen.verifyToken, serverRoleGroup.getAllRoleGroup)
 
 // delete role
-router.delete('/:serverId/roles/:roleId', Authen.verifyToken, Authen.verifyPermission(serverPolicy.MANAGE_ROLE), serverRoleGroupController.deleteRoleGroup)
+router.delete('/:serverId/roles/:roleId', Authen.verifyToken, serverRoleGroupController.deleteRoleGroup)
 
-router.get('/:serverId/roles/:roleId', Authen.verifyToken, Authen.verifyPermission(serverPolicy.MANAGE_ROLE), serverRoleGroup.getRoleGroup)
+router.get('/:serverId/roles/:roleId', Authen.verifyToken, serverRoleGroup.getRoleGroup)
 
-router.put('/:serverId/roles/:roleId', Authen.verifyToken, Authen.verifyPermission(serverPolicy.MANAGE_ROLE), serverRoleGroup.updateRoleGroup)
+router.put('/:serverId/roles/:roleId', Authen.verifyToken, serverRoleGroup.updateRoleGroup)
 
 
 
 // user-role-server
-router.put('/:serverId/user-role/:roleId', Authen.verifyToken, Authen.verifyPermission(serverPolicy.MANAGE_ROLE), UserServerRole.addUserToRoleGroup)
-router.get('/:serverId/user-role/:userId', Authen.verifyToken, Authen.verifyPermission(serverPolicy.MANAGE_ROLE), UserServerRole.getDetailRolesUserOnServer)
-router.get('/:serverId/user-role/get-all-members/:roleId', Authen.verifyToken, Authen.verifyPermission(serverPolicy.MANAGE_ROLE), UserServerRole.getAllUsersBelongRoleGroup)
-router.get('/:serverId/user-role/users-not-belong/:roleId', Authen.verifyToken, Authen.verifyPermission(serverPolicy.MANAGE_ROLE), UserServerRole.getUsersNotBelongRoleGroup)
-router.delete('/:serverId/user-role/:roleId/:userId', Authen.verifyToken, Authen.verifyPermission(serverPolicy.MANAGE_ROLE), UserServerRole.removeUserFromRoleGroup)
+router.put('/:serverId/user-role/:roleId', Authen.verifyToken, UserServerRole.addUserToRoleGroup)
+router.get('/:serverId/user-role/:userId', Authen.verifyToken, UserServerRole.getDetailRolesUserOnServer)
+router.get('/:serverId/user-role/get-all-members/:roleId', Authen.verifyToken, UserServerRole.getAllUsersBelongRoleGroup)
+router.get('/:serverId/user-role/users-not-belong/:roleId', Authen.verifyToken, UserServerRole.getUsersNotBelongRoleGroup)
+router.delete('/:serverId/user-role/:roleId/:userId', Authen.verifyToken, UserServerRole.removeUserFromRoleGroup)
 
 module.exports = router;
