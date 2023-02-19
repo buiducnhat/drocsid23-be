@@ -56,7 +56,12 @@ const ServerService = {
             const admin = await ServerRoleGroupModel.create({
                 serverId: newServer.id,
                 name: 'admin',
-                rolePolicies: [SERVER_POLICY.MANAGE_SERVER, SERVER_POLICY.MANAGE_ROLE, SERVER_POLICY.INVITE],
+                rolePolicies: [
+                    SERVER_POLICY.MANAGE_SERVER,
+                    SERVER_POLICY.MANAGE_ROLE,
+                    SERVER_POLICY.INVITE,
+                    SERVER_POLICY.MANAGE_CHANNEL,
+                ],
             });
             if (!everyone) throw new Error(`Cant not create everyone role`);
             if (!admin) throw new Error(`Cant not create admin role`);
