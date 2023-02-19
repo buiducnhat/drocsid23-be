@@ -141,8 +141,8 @@ const ServerController = {
     },
     kickUser: async (req, res, next) => {
         try {
-            const userIdKick = req.body.userIdKick;
-            const { status, data } = await ServerService.kickUser(userIdKick, req.params.serverId);
+            const userId = req.body.userId;
+            const { status, data } = await ServerService.kickUser(userId, req.params.serverId);
             if (status === ERR) {
                 throw new CusError(apiStatus.DATABASE_ERROR, httpStatus.INTERNAL_SERVER_ERROR, data);
             }
