@@ -16,6 +16,8 @@ const ServerRoleGroupService = {
         }
     },
     getAll: async (serverId, page, perpage) => {
+        page = parseInt(page || 1)
+        perpage = parseInt(perpage || 99999)
         try {
             const data = await ServerRoleGroupModel.find({
                 serverId: serverId

@@ -183,6 +183,8 @@ const ServerService = {
         }
     },
     getServersPublic: async (page, limit, keyword) => {
+        page = page || 1;
+        limit = limit || 99999999;
         try {
             const servers = await ServerModel.find(
                 {
