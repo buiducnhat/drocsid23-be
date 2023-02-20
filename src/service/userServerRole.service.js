@@ -25,7 +25,7 @@ const UserServerRoleService = {
                     },
                 },
                 {
-                    userId: 1, 
+                    userId: 1,
                 },
             );
             return {
@@ -39,7 +39,6 @@ const UserServerRoleService = {
             };
         }
     },
-    // delete a role
     delete: async (serverId, serverRoleGroupId, userId) => {
         try {
             const user = await UserServerRoleModel.findOne({
@@ -49,7 +48,8 @@ const UserServerRoleService = {
             if (!user) throw new Error(`Cant find role group with roleId: ${serverRoleGroupId}`);
             if (!user.serverRoleGroupId.includes(serverRoleGroupId))
                 throw new Error(`User: ${user} is not belong this role group: ${serverRoleGroupId}`);
-            user.serverRoleGroupId.forEach((item) => item != serverRoleGroupId);
+            user.serverRoleGroupId = user.serverRoleGroupId.filter((item) => item != serverRoleGroupId);
+            await user.save();
             return {
                 status: OK,
                 data: user,
@@ -85,10 +85,12 @@ const UserServerRoleService = {
                 userId: userId,
                 serverId: serverId,
             });
+            console.log(user);
             if (!user) throw new Error(`Cant find role group with roleId: ${serverRoleGroupId}`);
             if (user.serverRoleGroupId.includes(serverRoleGroupId))
                 throw new Error(`User: ${userId} already had this role group: ${serverRoleGroupId}`);
             user.serverRoleGroupId.push(serverRoleGroupId);
+            await user.save();
             return {
                 status: OK,
                 data: user,
